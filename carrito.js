@@ -65,6 +65,7 @@ class Carrito {
     this.carrito = carritoStorage || [];
     this.total = 0;
     this.cantidadCervezas = 0;
+    this.listar();
   }
   enElCarrito({ id }) {
     return this.carrito.find((cerveza) => cerveza.id === id);
@@ -77,6 +78,7 @@ class Carrito {
     } else {
       cervezaEnCarrito.cantidad++;
     }
+    localStorage.setItem("carrito", JSON.stringify(this.carrito));
     this.listar();
   }
   quitar(id) {
@@ -99,9 +101,10 @@ class Carrito {
       divCarrito.innerHTML += `
         <div class="cervezaCarrito">
           <h2>${cerveza.nombre}</h2>
+          <img src="images/${cerveza.imagen}" width=150px/>
           <p>$${cerveza.precio}</p>
           <p>Cantidad: ${cerveza.cantidad}</p>
-          <button class="btnQuitar" data-id="${cerveza.id}">Quitar del carrito</button>
+          <button class="btnQuitar""btn btn-danger" data-id="${cerveza.id}">Quitar del carrito</button>
         </div>
       `;
       this.total += cerveza.precio * cerveza.cantidad;
@@ -128,6 +131,7 @@ const spanCantidadCervezas = document.querySelector("#cantidadCervezas");
 const spanTotalCarrito = document.querySelector("#totalCarrito");
 const divCervezas = document.querySelector("#cervezas");
 const divCarrito = document.querySelector("#carrito");
+const inputBuscar = document.querySelector("#inputBuscar");
 
 const carrito = new Carrito();
 
@@ -144,7 +148,7 @@ function cargarProductos(cervezas) {
     <div class="imagen">
     <img src="images/${cerveza.imagen}" width=150px />
     </div>
-    <a href="#" class="btnAgregar" data-id="${cerveza.id}">Agregar al carrito </a>
+    <a href="#" class="btnAgregar"btn btn-primary data-id="${cerveza.id}">Comprar</a>
     </div>
     `;
   }
@@ -160,3 +164,10 @@ function cargarProductos(cervezas) {
     });
   }
 }
+
+inputBuscar.addEventListener("input", (event) => {
+  event.preventDefault();
+  const palabra = inputBuscar.value;
+  const cervezas = ctlg.productosPorNombre(palabra);
+  cargarProductos(cervezas);
+});
