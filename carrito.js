@@ -1,5 +1,3 @@
-// Clase Molde
-
 class Cerveza {
   constructor(id, nombre, precio, categoria, imagen) {
     this.id = id;
@@ -93,20 +91,21 @@ class Carrito {
   }
   listar() {
     this.total = 0;
-    this.catidadCervezas = 0;
+    this.cantidadCervezas = 0;
+
     divCarrito.innerHTML = "";
 
     for (const cerveza of this.carrito) {
       divCarrito.innerHTML += `
-      <div class="cervezaCarrito">
-      <h2>${cerveza.nombre}</h2>
-      <p>$${cerveza.precio}</p>
-      <p>Cantidad: ${cerveza.cantidad}</p>
-      <a href="#" class="btnQuitar" data-id="${cerveza.id}">Quitar del carrito</a>
-      </div>
+        <div class="cervezaCarrito">
+          <h2>${cerveza.nombre}</h2>
+          <p>$${cerveza.precio}</p>
+          <p>Cantidad: ${cerveza.cantidad}</p>
+          <button class="btnQuitar" data-id="${cerveza.id}">Quitar del carrito</button>
+        </div>
       `;
       this.total += cerveza.precio * cerveza.cantidad;
-      this.cantidadCervezas += cerveza.catidad;
+      this.cantidadCervezas += cerveza.cantidad;
     }
 
     const btnsQuitar = document.querySelectorAll(".btnQuitar");
